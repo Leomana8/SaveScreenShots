@@ -44,6 +44,7 @@ namespace SaveScreenshots
 
             // делаем нашу иконку в трее активной
             notifyIcon1.Visible = true;
+			
             gkh.HookedKeys.Add(Keys.PrintScreen);
             gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
             
@@ -60,6 +61,7 @@ namespace SaveScreenshots
             var image = Clipboard.GetImage();
             if (image != null)
             {
+				// либо в имени дата, либо индекс
                 if(cbDate.Checked)
                 {
                     image.Save(pathToFolder + @"\" + namefile + "_" + 
@@ -92,9 +94,11 @@ namespace SaveScreenshots
                 bOk.Enabled = true;
             else
                 bOk.Enabled = false;
-
+			
+			
             if (!System.IO.Directory.Exists(tbFolder.Text))
             {
+				// ошибка в пути директории
                 tbFolder.ForeColor = Color.Red;
                 bOk.Enabled = false;
             }
@@ -112,8 +116,9 @@ namespace SaveScreenshots
 
         private void tbNameFile_TextChanged(object sender, EventArgs e)
         {
+			// проверка на допустимость имени файла
             if (tbNameFile.Text.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1)
-            {
+            {		
                 tbNameFile.ForeColor = Color.Red;
                 bOk.Enabled = false;
             }
